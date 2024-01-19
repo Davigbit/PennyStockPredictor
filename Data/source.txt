@@ -1,0 +1,5 @@
+S&P/TSX Composite index (^GSPTSE): https://ca.finance.yahoo.com/quote/%5EGSPTSE/history?period1=827280000&period2=1705622400&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true
+
+Baytex Energy Corp. (BTE.TO): https://ca.finance.yahoo.com/quote/BTE.TO/history?period1=827366400&period2=1705622400&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true
+
+Prime Rate and Bank of Canada Overnight Rate: https://wowa.ca/banks/prime-rates-canada
