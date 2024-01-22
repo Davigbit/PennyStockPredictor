@@ -11,4 +11,4 @@ df_IN = pd.DataFrame(data["data"])
 
 df_IN['date'] = pd.to_datetime(df_IN['date'])
 
-df_IN.to_csv("../Data CSV/Interests.csv", index=False)
+df_IN.to_csv("Interests.csv", index=False)

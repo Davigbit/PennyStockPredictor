@@ -8,10 +8,12 @@ r = requests.get(url)
 data = r.json().get("Time Series (Daily)", {})
 
 df_BTE = pd.DataFrame([
-    {"date": date, "value": float(data[date]["4. close"])}
+    {"date": date,
+    "value": float(data[date]["4. close"]),
+    "volume": float(data[date]["5. volume"])}
     for date in data
 ])
 
 df_BTE['date'] = pd.to_datetime(df_BTE['date'])
 
-df_BTE.to_csv("../Data CSV/BTE.csv", index=False)
+df_BTE.to_csv("BTE.csv", index=False)

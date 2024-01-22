@@ -11,4 +11,4 @@ df_NG = pd.DataFrame(data["data"])
 
 df_NG['date'] = pd.to_datetime(df_NG['date'])
 
-df_NG.to_csv("../Data CSV/Natural Gas.csv", index=False)
+df_NG.to_csv("Natural Gas.csv", index=False)

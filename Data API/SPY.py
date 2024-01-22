@@ -14,4 +14,4 @@ df_SPY = pd.DataFrame([
 
 df_SPY['date'] = pd.to_datetime(df_SPY['date'])
 
-df_SPY.to_csv("../Data CSV/S&P 500.csv", index=False)
+df_SPY.to_csv("S&P 500.csv", index=False)

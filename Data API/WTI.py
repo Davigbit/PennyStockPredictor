@@ -11,4 +11,4 @@ df_WTI = pd.DataFrame(data["data"])
 
 df_WTI['date'] = pd.to_datetime(df_WTI['date'])
 
-df_WTI.to_csv("../Data CSV/WTI.csv", index=False)
+df_WTI.to_csv("WTI.csv", index=False)
