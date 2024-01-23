@@ -1,48 +1,47 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split
-from sklearn import datasets, linear_model
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, mean_absolute_percentage_error
+from sklearn.metrics import r2_score, mean_absolute_error, mean_absolute_percentage_error
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import StandardScaler
+import subprocess
 
-'''
-# Load the diabetes dataset
-diabetes_X, diabetes_y = datasets.load_diabetes(return_X_y=True)
+subprocess.run(['python', 'Data.py'])
 
-# Use only one feature
-diabetes_X = diabetes_X[:, np.newaxis, 2]
+from Data import df_before_2023 as df
 
-# Split the data into training/testing sets
-diabetes_X_train = diabetes_X[:-20]
-diabetes_X_test = diabetes_X[-20:]
+plt.figure(figsize=(6,4))
+sns.heatmap(df.corr(), cmap='Blues', annot=True, fmt=".2f")
 
-# Split the targets into training/testing sets
-diabetes_y_train = diabetes_y[:-20]
-diabetes_y_test = diabetes_y[-20:]
+train, test = train_test_split(df, test_size=0.4, shuffle=True)
 
-# Create linear regression object
-regr = linear_model.LinearRegression()
+X_train = train.loc[:, train.columns != 'BTE (CAD)']
+Y_train = train.loc[:, ['BTE (CAD)']]
 
-# Train the model using the training sets
-regr.fit(diabetes_X_train, diabetes_y_train)
+X_test = test.loc[:, test.columns != 'BTE (CAD)']
+Y_test = test.loc[:, ['BTE (CAD)']]
 
-# Make predictions using the testing set
-diabetes_y_pred = regr.predict(diabetes_X_test)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
 
-# The coefficients
-print("Coefficients: \n", regr.coef_)
-# The mean squared error
-print("Mean squared error: %.2f" % mean_squared_error(diabetes_y_test, diabetes_y_pred))
-# The coefficient of determination: 1 is perfect prediction
-print("Coefficient of determination: %.2f" % r2_score(diabetes_y_test, diabetes_y_pred))
+alphas = np.logspace(-1, 1, 500)
+param_grid = {'alpha': alphas}
 
-# Plot outputs
-plt.scatter(diabetes_X_test, diabetes_y_test, color="black")
-plt.plot(diabetes_X_test, diabetes_y_pred, color="blue", linewidth=3)
+grid_search = GridSearchCV(Ridge(), param_grid, cv=5)
+grid_search.fit(X_train_scaled, Y_train)
 
-plt.xticks(())
-plt.yticks(())
+best_alpha = grid_search.best_params_['alpha']
+print(f'Best Alpha: {best_alpha}')
 
-plt.show()
-####
-'''
+ridge_model = Ridge(alpha=best_alpha)
+ridge_model.fit(X_train_scaled, Y_train)
+
+Y_pred = ridge_model.predict(X_test_scaled)
+
+print(f'Mean Absolute Percentage Error: {mean_absolute_percentage_error(Y_test, Y_pred):.3f}%')
+print(f'Mean Absolute Error: {mean_absolute_error(Y_test, Y_pred):.3f}')
+print(f'R2 Score: {r2_score(Y_test, Y_pred):.3f}')
