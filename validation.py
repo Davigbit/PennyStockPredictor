@@ -20,4 +20,4 @@ accuracy = np.mean(predictions == Y)
 
 print(f'Accuracy: {accuracy*100:.2f}%')
 result = pd.DataFrame({'Prediction': predictions[0], 'Actual': Y[0]})
-result
+print(result)
