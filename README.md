@@ -1,4 +1,4 @@
-# Penny Stock Prediction
+# Penny Stock Predictor
 PSP predicts the change in the BTE penny stock in the Toronto market using AlphaVantage API.
 
 # How to use:
